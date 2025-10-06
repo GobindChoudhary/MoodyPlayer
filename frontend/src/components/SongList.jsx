@@ -33,8 +33,10 @@ const PauseIcon = () => (
 );
 
 const TrackCounter = memo(({ count }) => (
-  <div className="bg-gray-800/50 rounded-full px-3 py-1 border border-gray-700">
-    <span className="text-gray-300 text-xs font-medium">{count} tracks</span>
+  <div className="bg-gray-800/50 md:rounded-full px-2 py-1 md:px-3 border border-gray-700">
+    <span className="text-gray-300 text-xs font-medium line-clamp-1">
+      {count} tracks
+    </span>
   </div>
 ));
 
