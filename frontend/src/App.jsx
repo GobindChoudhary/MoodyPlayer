@@ -2,45 +2,74 @@ import React, { useState } from "react";
 import MoodyPlayer from "./components/MoodyPlayer";
 import SongList from "./components/SongList";
 
+const backgroundPattern = {
+  backgroundImage: `radial-gradient(circle at 25% 25%, #6366f1 0%, transparent 50%),
+                   radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%)`,
+};
+
+const MusicIcon = () => (
+  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+  </svg>
+);
+
+const LiveIndicator = () => (
+  <div className="hidden md:flex items-center space-x-2 bg-gray-900/50 rounded-full px-4 py-2 border border-gray-800">
+    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+    <span className="text-gray-300 text-sm font-medium">Live Detection</span>
+  </div>
+);
+
+const Header = () => (
+  <header className="px-6 py-8 lg:px-8">
+    <div className="max-w-7xl mx-auto">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+            <MusicIcon />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">
+              Moody Player
+            </h1>
+            <p className="text-gray-400 text-sm mt-1">
+              AI-powered music that reads your emotions
+            </p>
+          </div>
+        </div>
+        <LiveIndicator />
+      </div>
+    </div>
+  </header>
+);
+
+const MainContent = ({ songs, setSongs }) => (
+  <main className="flex-1 px-6 pb-8 lg:px-8">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section className="bg-gray-900/30 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+          <MoodyPlayer setSongs={setSongs} />
+        </section>
+        <section className="bg-gray-900/30 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+          <SongList songs={songs} />
+        </section>
+      </div>
+    </div>
+  </main>
+);
+
 function App() {
   const [songs, setSongs] = useState([]);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-teal-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-40 w-28 h-28 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+    <div className="min-h-screen w-full bg-black relative overflow-hidden">
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={backgroundPattern} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-6">
-        <header className="mb-8 text-center">
-          <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-white/20">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-lg font-bold">♪</span>
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent tracking-tight">
-              Moody Player
-            </h1>
-          </div>
-          <p className="mt-3 text-gray-600 text-sm font-medium tracking-wide">
-            AI-powered music that reads your emotions
-          </p>
-        </header>
-
-        {/* Side-by-side layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
-          {/* Left side - Camera and Mood Detection */}
-          <div className="flex flex-col">
-            <MoodyPlaygiter setSongs={setSongs} />
-          </div>
-
-          {/* Right side - Scrollable Tracks */}
-          <div className="flex flex-col">
-            <SongList songs={songs} />
-          </div>
-        </div>
+      <div className="relative z-10 min-h-screen flex flex-col">
+        <Header />
+        <MainContent songs={songs} setSongs={setSongs} />
       </div>
     </div>
   );
